@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
 
+<script>
+console.log(`
+ANGULAR API SERVICE
+
+constructor(private http: HttpClient) {}
+
+getLista(): Observable<any> {
+  return this.http.get<any>(this.apiUrl);
+}
+
+getDetalji(id: number): Observable<any> {
+  return this.http.get<any>(
+    \`\${this.apiUrl}/\${id}\`
+  );
+}
+`);
+
+console.log(`
+LISTA COMPONENT
+
+ngOnInit() {
+  this.apiService.getLista().subscribe({
+    next: (data) => {
+      this.podaci = data;
+    }
+  });
+}
+
+detalji(id: number) {
+  this.router.navigate(['/detalji', id]);
+}
+`);
+
+console.log(`
+DETALJI COMPONENT
+
+const id = Number(
+  this.route.snapshot.paramMap.get('id')
+);
+
+this.apiService.getDetalji(id).subscribe({
+  next: (data) => {
+    this.stavka = data;
+  }
+});
+`);
+</script>
+
+</body>
+</html>
