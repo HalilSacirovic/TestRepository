@@ -26,6 +26,11 @@ getDetalji(id: number): Observable<any> {
 console.log(`
 LISTA COMPONENT
 
+  podaci: any[] = [];
+  constructor(
+    private apiService: ApiService,
+    private router: Router
+  ) {}
 ngOnInit() {
   this.apiService.getLista().subscribe({
     next: (data) => {
@@ -42,15 +47,38 @@ detalji(id: number) {
 console.log(`
 DETALJI COMPONENT
 
-const id = Number(
-  this.route.snapshot.paramMap.get('id')
-);
+  stavka: any = null;
 
-this.apiService.getDetalji(id).subscribe({
-  next: (data) => {
-    this.stavka = data;
+  loading = false;
+  error = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private apiService: ApiService
+  ) {}
+
+  ngOnInit() {
+
+    const id = Number(
+      this.route.snapshot.paramMap.get('id')
+    );
+    this.ucitajDetalje(id);
   }
-});
+
+  ucitajDetalje(id: number) {
+    this.loading = true;
+    this.error = '';
+    this.apiService.getDetalji(id).subscribe({
+      next: (data) => {
+        this.stavka = data;
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Greška pri učitavanju detalja';
+        this.loading = false;
+      }
+    });
+  }
 `);
 
 
@@ -118,41 +146,6 @@ DETALJI - HTML
 }
 `);
 
-
-console.log(`
-==============================
-NAJBITNIJE - FOR PETLJA
-==============================
-
-@for (stavka of podaci; track stavka.id) {
-
-  {{ stavka.id }}
-  {{ stavka.title }}
-
-}
-`);
-
-
-console.log(`
-==============================
-ROUTER LINK VARIJANTA
-==============================
-
-<a [routerLink]="['/detalji', stavka.id]">
-  Detalji
-</a>
-`);
-
-
-console.log(`
-==============================
-OBICNO DUGME ZA DETALJE
-==============================
-
-<button (click)="detalji(stavka.id)">
-  Detalji
-</button>
-`);
 
 
 </script>
