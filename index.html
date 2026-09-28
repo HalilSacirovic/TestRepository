@@ -52,6 +52,109 @@ this.apiService.getDetalji(id).subscribe({
   }
 });
 `);
+
+
+console.log(`
+==============================
+LISTA - HTML
+==============================
+
+@for (stavka of podaci; track stavka.id) {
+
+  <div>
+
+    <h3>{{ stavka.title }}</h3>
+
+    <p>ID: {{ stavka.id }}</p>
+
+    <p>{{ stavka.body }}</p>
+
+    <button (click)="detalji(stavka.id)">
+      Detalji
+    </button>
+
+  </div>
+
+}
+`);
+
+
+console.log(`
+==============================
+LOADING + ERROR
+==============================
+
+@if (loading) {
+  <p>Učitavanje...</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+`);
+
+
+console.log(`
+==============================
+DETALJI - HTML
+==============================
+
+@if (loading) {
+  <p>Učitavanje...</p>
+}
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+@if (stavka) {
+
+  <h2>{{ stavka.title }}</h2>
+
+  <p>ID: {{ stavka.id }}</p>
+
+  <p>{{ stavka.body }}</p>
+
+}
+`);
+
+
+console.log(`
+==============================
+NAJBITNIJE - FOR PETLJA
+==============================
+
+@for (stavka of podaci; track stavka.id) {
+
+  {{ stavka.id }}
+  {{ stavka.title }}
+
+}
+`);
+
+
+console.log(`
+==============================
+ROUTER LINK VARIJANTA
+==============================
+
+<a [routerLink]="['/detalji', stavka.id]">
+  Detalji
+</a>
+`);
+
+
+console.log(`
+==============================
+OBICNO DUGME ZA DETALJE
+==============================
+
+<button (click)="detalji(stavka.id)">
+  Detalji
+</button>
+`);
+
+
 </script>
 
 </body>
